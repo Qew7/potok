@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+NeededRate.create!([
+    {from:'USD', to: 'EUR'},
+    {from:'EUR', to: 'USD'}
+  ])

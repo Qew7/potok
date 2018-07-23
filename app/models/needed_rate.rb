@@ -1,0 +1,2 @@
+class NeededRate < ApplicationRecord
+end

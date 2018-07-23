@@ -1,0 +1,1 @@
+json.(rate, :id, :from, :to, :rate)

@@ -1,0 +1,37 @@
+<h1>Курс Валют за <%= Date.current %></h1>
+<div id="average-rates">
+<% @needed_rates.each do |nr| %>
+<%= average(from: nr.from, to: nr.to) %>  
+<% end %>
+</div>
+<div id="rates-graph">
+<canvas id="myChart" height="90%"></canvas>
+</div>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: <%= raw(hours_untill_now) %>,
+    datasets: [
+    <% @needed_rates.each do |nr|%>
+      <% nr_rate = Rate.where(from: nr.from, to: nr.to) %>
+      {
+        label: "<%= raw("#{nr.from} => #{nr.to}") %>",
+        data: <%= nr_rate.pluck(:buy) %>,
+        backgroundColor: "rgba(<%=rand(1..255)%>,<%=rand(1..255)%>,51,0.4)"
+      },
+      {
+      label: "<%= raw("#{nr.from} <= #{nr.to}") %>",
+      data: <%= nr_rate.pluck(:sell) %>,
+      backgroundColor: "rgba(<%=rand(1..255)%>,<%=rand(1..255)%>,51,0.4)"
+      <% if nr != @needed_rates.last %>
+        },
+      <% else %>
+        }
+      <% end %>
+    <% end %>
+    ]
+  }
+});
+</script>
